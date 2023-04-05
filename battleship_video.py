@@ -24,14 +24,14 @@ def create_ships(board):
 
 
 def get_ship_location():
-    row = input('Please enter a ship row 1-8')
+    row = input('Please enter a ship row 1-8 ')
     while row not in '12345678':
         print('Please enter a valid number')
-        row = input('Please enter a ship row 1-8')
-    column = input('Please enter a ship row a-h').lower()
+        row = input('Please enter a ship row 1-8 ')
+    column = input('Please enter a ship row a-h ').lower()
     while column not in 'abcdefgh':
         print('Please enter a valid letter')
-        column = input('Please enter a ship row a-h').lower()
+        column = input('Please enter a ship row a-h ').lower()
     return int(row)-1, letters_to_numbers[column]
 
 
@@ -46,6 +46,24 @@ def count_hit_ships(board):
 
 create_ships(HIDDEN_BOARD)
 turns = 10
-print_board(HIDDEN_BOARD)
-print_board(GUESS_BOARD)
-# while turns > 0:
+while turns > 0:
+    print('Welcome to the Battleships game')
+    print_board(GUESS_BOARD)
+    row, column = get_ship_location()
+    if GUESS_BOARD[row][column] == '-':
+        print('You have already guessed that.')
+    elif HIDDEN_BOARD[row][column] == 'x':
+        print('You hit a battleship!')
+        GUESS_BOARD[row][column] = 'x'
+        turns -= 1
+    else:
+        print('You missed')
+        GUESS_BOARD[row][column] = '-'
+        turns -= 1
+    if count_hit_ships(GUESS_BOARD) == 5:
+        print('Congratulations, you have sunk all the battleships')
+        break
+    print('You have ' + str(turns) + ' turns remaning')
+    if turns == 0:
+        print('Game Over')
+        break
